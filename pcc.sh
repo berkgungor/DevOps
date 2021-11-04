@@ -71,17 +71,17 @@ function START_SQL_DEPLOYMENT(){
 	echo ""
 	#sed -i '1s/^/SET DEFINE OFF;/' $SOURCE_FILE
 	if [[ "$USERNAME" -eq "TURECOMP" ]]; then
-		DB_Password="$TC_DB_PASS"
-        echo "INFO: DB USERNAME : TURECOMP"
+		DB_Password="****"
+        echo "INFO: DB USERNAME : ****"
 		
 	elif [ "$USERNAME" == "COLLECTIONS" ]; then
-    	DB_Password="$CO_DB_PASS"
-        echo "INFO: DB USERNAME : COLLECTIONS"
+    	DB_Password="*****"
+        echo "INFO: DB USERNAME : ***"
 		
 	fi
 	echo ""
     DB_SID="srv_edun"    
-	DB_HostName="172.31.60.134"
+	DB_HostName="172.31.60.***"
 	DB_Port="1521"
 	#SQL_STR="sqlplus "${USERNAME}"/"${DB_Password}"@${DB_HostName}:${DB_Port}/${DB_SID}"
 	#SQL_OUTPUT="$SQL_STR"@"$SOURCE_FILE"
@@ -121,7 +121,7 @@ function START_SQL_ROLLBACK(){
 	fi
 	echo ""
     DB_SID="srv_edun"    
-	DB_HostName="172.31.60.134"
+	DB_HostName="172.31.60.***"
 	DB_Port="1521"
 	echo ""
     SQL_OUTPUT=`sqlplus -s ${USERNAME}/${DB_Password}@${DB_HostName}:${DB_Port}/${DB_SID} @"$WORKSPACE/$SOURCE_FILE"`
@@ -144,7 +144,7 @@ function START_SQL_ROLLBACK(){
 function START_UNIX_JAR_DEPLOYMENT(){
 
 	cd $WORKSPACE
-	ssh userpcc@172.31.60.99 "ls -l $TARGET_DIR && [ -d $TARGET_DIR ] && echo "$TARGET_DIR directory exists""
+	ssh userpcc@172.31.60.*** "ls -l $TARGET_DIR && [ -d $TARGET_DIR ] && echo "$TARGET_DIR directory exists""
 	if [ $? -eq 0 ]; then
 		echo "INFO: $TARGET_DIR exist on remote server!"
 	else
@@ -167,7 +167,7 @@ function START_UNIX_JAR_DEPLOYMENT(){
 
 function START_OPERATION_DEPLOYMENT(){
 
-	ssh userpcc@172.31.60.99 "$OPERATION_COMMAND"
+	ssh userpcc@172.31.60.*** "$OPERATION_COMMAND"
 	if [ $? -eq 0 ]; then
 		echo "INFO: Operation is successful"
 		echo ""
@@ -237,7 +237,7 @@ function START_ROLL_BACK(){
 				TARGET_SYSTEM=`echo "$RB_LINES" | awk -F"|" '{print $4}'`
 				FILE_NAME=`basename $SOURCE_FILE` && echo "FILENAME : $FILE_NAME"
 				##START_UNIX_ROLLBACK
-				ssh userpcc@172.31.60.99 <<-EOF
+				ssh userpcc@172.31.60.*** <<-EOF
 					BACKUP_DIR=~/jenkins_backup
 					cp -p ~/jenkins_backup/$FILE_NAME "$TARGET_DIR/$FILE_PATH"
 					if [[ $? -eq 0 ]]; then
@@ -252,7 +252,7 @@ function START_ROLL_BACK(){
 			"OPERATIONS")
 				echo "ROLLBACK_TYPE: $ROLLBACK_TYPE for $RB_LINES"
 				OPERATION_COMMAND=`echo "$RB_LINES" | awk -F"|" '{print $2}'`
-				ssh userpcc@172.31.60.99 "$OPERATION_COMMAND"
+				ssh userpcc@172.31.60.*** "$OPERATION_COMMAND"
 				if [ $? -eq 0 ]; then
 					echo "INFO: Operation rollback is successful"
 					echo ""
@@ -282,7 +282,7 @@ function START_BACKUP(){
                 MYFILE=`echo "$LINES" | awk -F"|" '{print $2}'`
 				FILE_NAME=`basename $MYFILE` && echo "FILENAME : $FILE_NAME"
 				BACKUP_SOURCE_PATH=`echo "$LINES" | awk -F"|" '{print $3}' | sed 's/\/*$//g'`
-        		ssh userpcc@172.31.60.99 <<-EOF
+        		ssh userpcc@172.31.60.*** <<-EOF
                 [[ ! -d ~/jenkins_backup/$PACKAGE_FOLDER ]] && mkdir ~/jenkins_backup/$PACKAGE_FOLDER
         		if [[ -f "$BACKUP_SOURCE_PATH/$FILE_NAME" ]]; then
 					echo ""
