@@ -63,7 +63,7 @@ echo "========================= Downloading Packages from Nexus  ===============
 echo ""
 Nexus_URL="http://nexus.vodafone.local/repository/releases/com/oksijen/inox/nina"
 NEXUS_USER="test.auto.sat"
-#NEXUS_PWD="I#n6uvtvhybnikultakafyhoi"
+#NEXUS_PWD=""
 
 curl -LJO -u $NEXUS_USER:'I#n6uvtvhybnikultakafyhoi' "$Nexus_URL"/"${APPLICATION_NAME}"/"$PACKAGE_VERSION"/"$JAR_FILE"
 
